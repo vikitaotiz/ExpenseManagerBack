@@ -25,6 +25,8 @@ class AuthController extends Controller
             'phone' => $fields['phone'],
             'email' => $fields['email'],
             'country' => $fields['country'],
+            'company_id' => 2,
+            'role_id' => 2,
             'password' => bcrypt($fields['password'])
         ]);
 
@@ -73,10 +75,5 @@ class AuthController extends Controller
         return [
             'message' => 'Logged out successfully.'
         ];
-    }
-
-    public function users()
-    {
-        return UserResource::collection(User::all());
     }
 }

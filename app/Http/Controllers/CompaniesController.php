@@ -15,12 +15,16 @@ class CompaniesController extends Controller
 
     public function company_entries()
     {
-        $data = CompanyResource::collection(Company::orderBy('created_at', 'desc')->get());
+        $companies = CompanyResource::collection(Company::orderBy('created_at', 'desc')->get());
 
-        return $data->filter(function($var)
+        $data = $companies->filter(function($var)
         {
             return $var->entries->count() > 0;
         });
+
+        return response()->json([
+            "data" => $data
+        ]);
     }
 
     public function show($slug)

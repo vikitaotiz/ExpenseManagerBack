@@ -11,6 +11,8 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\EntriesController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StatsController;
 
 Route::group(['prefix' => 'v1'], function(){ 
     Route::post('/register', [AuthController::class, 'register']);
@@ -27,7 +29,8 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('products', ProductsController::class);
         Route::resource('entries', EntriesController::class);
         Route::get('today_entries', [EntriesController::class, 'today_entries']);
-        Route::get('/users', [AuthController::class, 'users']);
+        Route::resource('/users', UsersController::class);
+        Route::resource('/stats', StatsController::class);
     });
 });
 
