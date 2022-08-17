@@ -10,12 +10,23 @@ class CompaniesController extends Controller
 {
     public function index()
     {
-        return CompanyResource::collection(Company::orderBy('created_at', 'desc')->get());
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            return CompanyResource::collection(Company::orderBy('created_at', 'desc')->get());
+        } else {
+            $data = Company::where('id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+            return CompanyResource::collection($data);
+        }
     }
 
     public function company_entries()
     {
-        $companies = CompanyResource::collection(Company::orderBy('created_at', 'desc')->get());
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            $companies = Company::orderBy('created_at', 'desc')->get();
+        } else {
+            $companies = Company::where('id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        }
+
+        $companies = CompanyResource::collection($companies);
 
         $data = $companies->filter(function($var)
         {
@@ -25,6 +36,7 @@ class CompaniesController extends Controller
         return response()->json([
             "data" => $data
         ]);
+
     }
 
     public function show($slug)

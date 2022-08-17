@@ -11,7 +11,13 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        return ProductResource::collection(Product::orderBy('created_at', 'desc')->get());
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            $data = Product::orderBy('created_at', 'desc')->get();
+        } else {
+            $data = Product::where('company_id', auth()->user()->company_id)
+                    ->orderBy('created_at', 'desc')->get();
+        }
+        return ProductResource::collection($data);
     }
 
     public function store(Request $request)

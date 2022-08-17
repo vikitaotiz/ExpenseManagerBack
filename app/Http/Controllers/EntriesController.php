@@ -13,13 +13,25 @@ class EntriesController extends Controller
 {
     public function index()
     {
-        return EntryResource::collection(Entry::orderBy('created_at', 'desc')->get());
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            $data = Entry::orderBy('created_at', 'desc')->get();
+        } else {
+            $data = Entry::where('company_id', auth()->user()->company_id)->orderBy('created_at', 'desc')->get();
+        }
+        
+        return EntryResource::collection($data);
     }
 
     public function today_entries()
     {
-        $entries = Entry::whereDate('created_at', Carbon::today())
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            $entries = Entry::whereDate('created_at', Carbon::today())
                         ->orderBy('created_at', 'desc')->get();
+        } else {
+            $entries = Entry::where('company_id', auth()->user()->company_id)
+                ->whereDate('created_at', Carbon::today())
+                ->orderBy('created_at', 'desc')->get(); 
+        }
 
         return EntryResource::collection($entries);
     }
