@@ -23,10 +23,15 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
+        $category = Category::where('title', $request->title)->first();
+
+        if($category) return response()->json([
+            'message' => 'This category already exists, try a different one.',
+            'status' => 'error'
+        ]);
+
         $request->validate([
-            'title' => 'required|unique:categories'
-        ],[
-            'unique' => 'This category already exists, try a different one.',
+            'title' => 'required'
         ]);
 
         $category = Category::create([
@@ -34,7 +39,10 @@ class CategoriesController extends Controller
             'description' => $request->description
         ]);
 
-        return $category;
+        return response()->json([
+            'message' => 'Category created successfully.',
+            'status' => 'success'
+        ]);
     }
 
     public function update(Request $request, Category $category)

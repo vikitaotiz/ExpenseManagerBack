@@ -13,6 +13,8 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\EntriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\StoresController;
+use App\Http\Controllers\SpilagesController;
 use App\Http\Controllers\ReportsController;
 
 Route::group(['prefix' => 'v1'], function(){ 
@@ -29,9 +31,11 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('units', UnitsController::class);
         Route::resource('products', ProductsController::class);
         Route::resource('entries', EntriesController::class);
-        Route::get('today_entries', [EntriesController::class, 'today_entries']);
+        Route::get('today_entries/{slug}', [EntriesController::class, 'today_entries']);
         Route::resource('/users', UsersController::class);
         Route::resource('/stats', StatsController::class);
+        Route::resource('/stores', StoresController::class);
+        Route::resource('/spilages', SpilagesController::class);
 
         Route::post('/entries_report', [ReportsController::class, 'entries']);
     });

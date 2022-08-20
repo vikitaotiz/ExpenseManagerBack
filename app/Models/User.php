@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Entry::class);
     }
+
+    public function spilages()
+    {
+        return $this->hasMany(Spilage::class);
+    }
 }

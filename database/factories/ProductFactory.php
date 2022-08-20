@@ -19,10 +19,11 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->unique()->word(),
-            // 'buying_price' => fake()->randomFloat(2, 0, 100),
-            // 'selling_price' => fake()->randomFloat(2, 0, 100),
+            'buying_price' => fake()->randomFloat(2, 0, 100),
+            'selling_price' => fake()->randomFloat(2, 0, 100),
             'category_id' => fake()->numberBetween($min = 1, $max = 10),
             'unit_id' => fake()->numberBetween($min = 1, $max = 3),
+            'store_id' => fake()->numberBetween($min = 1, $max = 3),
             'company_id' => fake()->numberBetween($min = 1, $max = 3),
             'description' => fake()->sentence(),
             'created_at' => Carbon::now(),

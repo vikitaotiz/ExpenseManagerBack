@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Entry;
 use App\Models\Company;
+use App\Models\Product;
 use App\Http\Resources\Entries\EntryResource;
 use App\Http\Resources\Companies\CompanyResource;
 use Carbon\Carbon;
@@ -22,18 +23,28 @@ class EntriesController extends Controller
         return EntryResource::collection($data);
     }
 
-    public function today_entries()
+    private function todayRecords($var)
     {
+        return $var->created_at->format('Y-m-d') === Carbon::today()->toDateString();
+    }
+
+    public function today_entries($slug)
+    {
+        $company = Company::where('slug', $slug)->first();
+        $data = $company->entries
+            ->filter(fn($var) => $this->todayRecords($var))
+            ->sortByDesc('created_at');
+
         if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
-            $entries = Entry::whereDate('created_at', Carbon::today())
-                        ->orderBy('created_at', 'desc')->get();
+            $entries = $data->sortByDesc('created_at');
         } else {
-            $entries = Entry::where('company_id', auth()->user()->company_id)
-                ->whereDate('created_at', Carbon::today())
-                ->orderBy('created_at', 'desc')->get(); 
+            $entries = $data->where('company_id', auth()->user()->company_id);
         }
 
-        return EntryResource::collection($entries);
+        return [
+            'company_name' => $company->name,
+            'data' => EntryResource::collection($entries)
+        ];
     }
 
     public function show($slug)
@@ -43,20 +54,6 @@ class EntriesController extends Controller
            return new CompanyResource($company);
     }
 
-    // function group_array($property, $data) {
-    //     $grouped_array = array();
-    
-    //     foreach($data as $value) {
-    //         if(array_key_exists($property, $value)){
-    //             $grouped_array[$value[$property]][] = $value;
-    //         }else{
-    //             $grouped_array[""][] = $value;
-    //         }
-    //     }
-    
-    //     return $grouped_array;
-    // }
-
     public function store(Request $request)
     {
         $reord = Entry::whereDate('created_at', Carbon::today())
@@ -64,7 +61,7 @@ class EntriesController extends Controller
         
         if($reord){
             return response()->json([
-                'message' => 'Entry already made today.',
+                'message' => 'Entry for this product has already been made today. Please select a different one',
                 'status' => 'error'
             ]);
         } else {
@@ -75,6 +72,8 @@ class EntriesController extends Controller
                 "opening_stock" => "required",
                 "closing_stock" => "required",
             ]);
+
+            $company = Company::findOrFail($request->company_id);
 
             $entry = Entry::create([
                 "product_id" => $request->product_id,
@@ -94,7 +93,12 @@ class EntriesController extends Controller
                 "user_id" => $request->user_id,
                 "company_id" => $request->company_id,
             ]);
-            return $entry;
+
+            return response()->json([
+                'message' => 'Entry created successfully.',
+                'status' => 'success',
+                'company_slug' => $company->slug
+            ]);
         }
     }
 

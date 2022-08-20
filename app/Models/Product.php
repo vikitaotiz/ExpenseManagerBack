@@ -14,7 +14,8 @@ class Product extends Model
         "description",
         "category_id",
         "unit_id",
-        "company_id"
+        "company_id",
+        "store_id"
     ];
 
     public function category()
@@ -32,8 +33,18 @@ class Product extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
     public function entries()
     {
         return $this->hasMany(Entry::class);
+    }
+
+    public function spilages()
+    {
+        return $this->hasMany(Spilage::class);
     }
 }
