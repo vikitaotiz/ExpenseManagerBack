@@ -22,22 +22,37 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        $category = Category::where('slug', $request->slug)->first();
-        if($category){        
-            $request->validate([
-                'name' => 'required|unique:products'
-            ]);
+        if(!$request->name && !$request->unit_id && !$request->store_id) return response()->json([
+            'status' => 'error',
+            'message' => 'Name, unit and store are required.'
+        ]);
 
-            $product = Product::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'category_id' => $category->id,
-                'unit_id' => $request->unit_id,
-                'company_id' => $request->company_id
-            ]);
+        $product = Product::where('name', $request->name)
+            ->where('category_id', $request->category_id)
+            ->where('company_id', $request->company_id)
+            ->where('store_id', $request->store_id)
+            ->first();
+        
+        if($product) return response()->json([
+            'status' => 'error',
+            'message' => 'Product for this category already exists in this store'
+        ]);
 
-            return $product;
-        }
+        $product = Product::create([
+            'name' => $request->name,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
+            'company_id' => $request->company_id,
+            'store_id' => $request->store_id
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product created successfully.'
+        ]);
     }
 
     public function destroy($id)

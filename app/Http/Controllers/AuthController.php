@@ -12,6 +12,17 @@ use App\Http\Resources\Users\UserResource;
 class AuthController extends Controller
 {
     public function register(Request $request) {
+        $userExist = User::where('name', $request->name)
+            ->where('phone', $request->phone)
+            ->where('email', $request->email)
+            ->where('country', $request->country)
+            ->first();
+
+        if($userExist) return response([
+            'status' => 'error',
+            'message' => 'User already exists, try a different one.'
+        ]);
+
         $fields = $request->validate([
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
@@ -30,10 +41,17 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
+        if(!$user) return response([
+            'status' => 'error',
+            'message' => 'Registered failed.',
+        ]);
+
         $token = $user->createToken('token')->plainTextToken;
         $user = new UserResource($user);
 
         $response = [
+            'status' => 'success',
+            'message' => 'User registered in successfully.',
             'user' => $user,
             'token' => $token
         ];
@@ -44,7 +62,6 @@ class AuthController extends Controller
     public function login(Request $request) {
         $fields = $request->validate([
             'phone' => 'required|string',
-            'country' => 'required|string',
             'password' => 'required|string'
         ]);
 
@@ -54,7 +71,8 @@ class AuthController extends Controller
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad credentials'
+                'status' => 'error',
+                'message' => 'User does not exist, invalid credentials. Register'
             ], 401);
         }
 
@@ -62,6 +80,8 @@ class AuthController extends Controller
         $user = new UserResource($user);
 
         $response = [
+            'status' => 'success',
+            'message' => 'User logged in successfully.',
             'user' => $user,
             'token' => $token
         ];
@@ -73,6 +93,7 @@ class AuthController extends Controller
     {
         auth()->user()->tokens()->delete();
         return [
+            'status' => 'success',
             'message' => 'Logged out successfully.'
         ];
     }
