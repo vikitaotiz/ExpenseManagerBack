@@ -14,8 +14,8 @@ use App\Http\Controllers\EntriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\StoresController;
-use App\Http\Controllers\SpilagesController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\OptionalInputController;
 
 Route::group(['prefix' => 'v1'], function(){ 
     Route::post('/register', [AuthController::class, 'register']);
@@ -35,9 +35,10 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('/users', UsersController::class);
         Route::resource('/stats', StatsController::class);
         Route::resource('/stores', StoresController::class);
-        Route::resource('/spilages', SpilagesController::class);
+        Route::resource('/optional_inputs', OptionalInputController::class);
 
         Route::post('/entries_report', [ReportsController::class, 'entries']);
+        Route::post('/product_closing_stock', [ProductsController::class, 'product_closing_stock']);
     });
 });
 

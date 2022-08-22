@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Resources\Companies\CompanyResource;
+use Carbon\Carbon;
 
 class CompaniesController extends Controller
 {
@@ -16,6 +17,11 @@ class CompaniesController extends Controller
             $data = Company::where('id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
             return CompanyResource::collection($data);
         }
+    }
+
+    private function todayRecords($var)
+    {
+        return $var->created_at->format('Y-m-d') === Carbon::today()->toDateString();
     }
 
     public function company_entries()
@@ -30,7 +36,7 @@ class CompaniesController extends Controller
 
         $data = $companies->filter(function($var)
         {
-            return $var->entries->count() > 0;
+            return $var->entries->filter(fn($var) => $this->todayRecords($var))->count() > 0;
         });
 
         return response()->json([

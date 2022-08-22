@@ -37,13 +37,13 @@ class Company extends Model
         return $this->hasMany(Entry::class);
     }
 
-    public function spilages()
-    {
-        return $this->hasMany(Spilage::class);
-    }
-
     public function stores()
     {
         return $this->hasMany(Store::class);
+    }
+
+    public function optional_inputs()
+    {
+        return $this->hasMany(OptionalInput::class);
     }
 }

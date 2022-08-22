@@ -11,8 +11,6 @@ class Product extends Model
 
     protected $fillable = [
         "name",
-        "buying_price",
-        "selling_price",
         "description",
         "category_id",
         "unit_id",
@@ -43,10 +41,5 @@ class Product extends Model
     public function entries()
     {
         return $this->hasMany(Entry::class);
-    }
-
-    public function spilages()
-    {
-        return $this->hasMany(Spilage::class);
     }
 }

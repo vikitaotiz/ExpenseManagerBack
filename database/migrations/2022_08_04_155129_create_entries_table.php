@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('units');
             $table->string('parts');
             $table->decimal('unit_price');
+            $table->decimal("selling_price", $precision = 8, $scale = 2)->default(0.00);
             $table->integer('opening_stock');
             $table->integer('closing_stock');
             $table->integer('purchases');

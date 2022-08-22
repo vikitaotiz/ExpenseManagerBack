@@ -13,6 +13,7 @@ class Entry extends Model
         'product_id',
         'opening_stock',
         'unit_price',
+        "selling_price",
         'purchases',
         'purchases_cost',
         'closing_stock',

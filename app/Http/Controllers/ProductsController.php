@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Entry;
 use App\Http\Resources\Products\ProductResource;
+use Carbon\Carbon;
 
 class ProductsController extends Controller
 {
@@ -40,8 +42,6 @@ class ProductsController extends Controller
 
         $product = Product::create([
             'name' => $request->name,
-            'buying_price' => $request->buying_price,
-            'selling_price' => $request->selling_price,
             'description' => $request->description,
             'category_id' => $request->category_id,
             'unit_id' => $request->unit_id,
@@ -52,6 +52,24 @@ class ProductsController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Product created successfully.'
+        ]);
+    }
+
+    public function product_closing_stock(Request $request)
+    {
+        $entry = Entry::whereDate('created_at', Carbon::yesterday())
+            ->where('product_id', $request->product_id)
+            ->first();
+        
+        if(!$entry) return response([
+            "status" => "error",
+            "message" => "Product has no closing stock for yesterday",
+        ]);
+
+        return response([
+            "status" => "success",
+            "message" => "Product has closing stock for yesterday",
+            "today_opening_stock" => $entry->closing_stock
         ]);
     }
 

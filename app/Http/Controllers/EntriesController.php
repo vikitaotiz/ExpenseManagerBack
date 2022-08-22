@@ -78,6 +78,7 @@ class EntriesController extends Controller
             $entry = Entry::create([
                 "product_id" => $request->product_id,
                 "unit_price" => $request->unit_price,
+                "selling_price" => $request->selling_price,
                 "units" => $request->units,
                 "parts" => $request->parts,
                 "purchases" => $request->purchases,

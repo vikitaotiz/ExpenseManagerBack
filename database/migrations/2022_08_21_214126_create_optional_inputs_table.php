@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('spilages', function (Blueprint $table) {
+        Schema::create('optional_inputs', function (Blueprint $table) {
             $table->id();
             $table->integer('company_id');
-            $table->integer('product_id');
-            $table->decimal("spilage_cost", $precision = 8, $scale = 2)->default(0.00);
+            $table->string('name');
+            $table->boolean('number')->default(false);
+            $table->boolean('text')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spilages');
+        Schema::dropIfExists('optional_inputs');
     }
 };
