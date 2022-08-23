@@ -23,6 +23,8 @@ Route::group(['prefix' => 'v1'], function(){
     
     Route::group(['middleware' => ['auth:sanctum']], function(){ 
         Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        
         Route::resource('roles', RolesController::class);
         Route::resource('companies', CompaniesController::class);
         Route::get('company_entries', [CompaniesController::class, 'company_entries']);

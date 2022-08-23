@@ -97,4 +97,28 @@ class AuthController extends Controller
             'message' => 'Logged out successfully.'
         ];
     }
+
+    public function refresh(Request $request)
+    {
+        $user = auth()->user();
+
+        if($user){
+            $user->tokens()->delete();
+            $token = $user->createToken('token')->plainTextToken;
+
+            return response([
+                'status' => 'success',
+                'message' => 'Token refreshed successfully.',
+                'user' => $user,
+                'token' => $token
+            ]);
+
+        } else {
+            return response([
+                'status' => 'error',
+                'message' => 'Token refresh failed. User not found'
+            ]);
+        }
+
+    }
 }

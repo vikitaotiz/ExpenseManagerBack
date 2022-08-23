@@ -56,10 +56,11 @@ class EntriesController extends Controller
 
     public function store(Request $request)
     {
-        $reord = Entry::whereDate('created_at', Carbon::today())
-                        ->where('product_id', '=', $request->product_id)->first();
+        $record = Entry::whereDate('created_at', Carbon::today())
+                        ->where('product_id', '=', $request->product_id)
+                        ->where('company_id', '=', $request->company_id)->first();
         
-        if($reord){
+        if($record){
             return response()->json([
                 'message' => 'Entry for this product has already been made today. Please select a different one',
                 'status' => 'error'

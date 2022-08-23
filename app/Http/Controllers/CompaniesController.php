@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Resources\Companies\CompanyResource;
+use App\Http\Resources\Companies\CompanyTodayResource;
 use Carbon\Carbon;
 
 class CompaniesController extends Controller
@@ -32,7 +33,7 @@ class CompaniesController extends Controller
             $companies = Company::where('id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         }
 
-        $companies = CompanyResource::collection($companies);
+        $companies = CompanyTodayResource::collection($companies);
 
         $data = $companies->filter(function($var)
         {

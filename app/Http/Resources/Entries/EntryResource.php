@@ -20,6 +20,7 @@ class EntryResource extends JsonResource
             'units' => $this->units,
             'parts' => $this->parts,
             'unit_price' => $this->unit_price,
+            'selling_price' => $this->selling_price,
             'opening_stock' => $this->opening_stock,
             'closing_stock' => $this->closing_stock,
             'purchases' => $this->purchases,
