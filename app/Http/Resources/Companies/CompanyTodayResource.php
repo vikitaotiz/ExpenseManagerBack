@@ -34,7 +34,6 @@ class CompanyTodayResource extends JsonResource
             "entry_count" => $this->entries->filter(fn($var) => $this->todayRecords($var))->count(),
             "store_count" => $this->stores->count(),
             "product_count" => $this->products->count(),
-            // "entries" => EntryResource::collection($this->entries),
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
         ];
     }

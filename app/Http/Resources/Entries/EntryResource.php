@@ -31,6 +31,10 @@ class EntryResource extends JsonResource
             'system_usage' => $this->system_usage,
             'stock_shortage' => $this->stock_shortage,
             'stock_shortage_cost' => $this->stock_shortage_cost,
+            'selling_price' => $this->selling_price,
+            'usage_sales_cost' => (int)$this->selling_price * (int)$this->usage,
+            'net_profit' => ((int)$this->selling_price * (int)$this->usage) - (int)$this->usage_cost,
+            'percentage_profit' => number_format((float)(((((int)$this->selling_price * (int)$this->usage) - (int)$this->usage_cost) / (int)$this->usage_cost) * 100), 2, '.', ''),
             'user' => $this->user->name,
             "company" => $this->company->name,
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
