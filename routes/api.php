@@ -40,6 +40,9 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('/optional_inputs', OptionalInputController::class);
 
         Route::post('/entries_report', [ReportsController::class, 'entries']);
+        Route::get('/company_charts', [ReportsController::class, 'company_charts']);
+        Route::get('/entries_last_seven_days', [ReportsController::class, 'entriesLastSevenDays']);
+        
         Route::post('/product_closing_stock', [ProductsController::class, 'product_closing_stock']);
     });
 });

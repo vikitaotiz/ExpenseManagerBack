@@ -12,6 +12,13 @@ class EntryResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+    public function percentageProfit($selling_price, $usage, $usage_cost)
+    {
+        $result = ((((int)$selling_price * (int)$usage) - (int)$usage_cost) / (int)$usage_cost) * 100;
+       return number_format((float)$result, 2, '.', '');
+    }
+
     public function toArray($request)
     {
         return [
@@ -34,7 +41,7 @@ class EntryResource extends JsonResource
             'selling_price' => $this->selling_price,
             'usage_sales_cost' => (int)$this->selling_price * (int)$this->usage,
             'net_profit' => ((int)$this->selling_price * (int)$this->usage) - (int)$this->usage_cost,
-            'percentage_profit' => number_format((float)(((((int)$this->selling_price * (int)$this->usage) - (int)$this->usage_cost) / (int)$this->usage_cost) * 100), 2, '.', ''),
+            'percentage_profit' => $this->percentageProfit($this->selling_price, $this->usage, $this->usage_cost),
             'user' => $this->user->name,
             "company" => $this->company->name,
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
