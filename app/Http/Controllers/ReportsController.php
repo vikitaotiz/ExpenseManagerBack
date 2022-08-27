@@ -34,12 +34,9 @@ class ReportsController extends Controller
 
     public function entriesLastSevenDays()
     {
-
         $entries_days_number = array();
 
-        $number_of_days = 7;
-
-        for ($i = 0; $i < $number_of_days; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $day = Carbon::now()->subDays($i)->format('l');
             $entries = Entry::whereDate('created_at', Carbon::now()->subDays($i)->toDateString())->count();
             $data = ["day" => $day, "records" => $entries];

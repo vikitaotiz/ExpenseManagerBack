@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Company extends Model
 {
@@ -17,7 +18,7 @@ class Company extends Model
         
         static::creating(function ($model){
             if(empty($model->slug)) {
-                $model->slug = Str::slug($model->title . " " . Str::uuid(), '-');
+                $model->slug = Str::slug($model->name . " " . Str::uuid(), '-');
             }
         });
     }

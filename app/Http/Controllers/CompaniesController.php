@@ -52,4 +52,31 @@ class CompaniesController extends Controller
         if(!$company) return "Company not found...";
         return new CompanyResource($company);
     }
+
+    public function store(Request $request)
+    {
+        $company = Company::where([
+            'name'=> $request->name, 
+            'country' => $request->country, 
+            'phone' => $request->phone])->first();
+        
+        if($company) return response()->json([
+            'status' => 'error',
+            'message' => 'Company  already exists.',
+        ]);
+
+        Company::create([
+            'name' => $request->name,
+            'phone' => $request->phone, 
+            'email' => $request->email, 
+            'address' => $request->address, 
+            'city' => $request->city, 
+            'country' => $request->country, 
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product created successfully.',
+        ]);
+    }
 }
