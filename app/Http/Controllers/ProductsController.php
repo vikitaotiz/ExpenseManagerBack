@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Entry;
+use App\Models\IngredientProduct;
 use App\Http\Resources\Products\ProductResource;
 use Carbon\Carbon;
 
@@ -24,7 +25,7 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        if(!$request->name && !$request->unit_id && !$request->store_id) return response()->json([
+        if(!$request->name) return response()->json([
             'status' => 'error',
             'message' => 'Name, unit and store are required.'
         ]);
@@ -32,7 +33,6 @@ class ProductsController extends Controller
         $product = Product::where('name', $request->name)
             ->where('category_id', $request->category_id)
             ->where('company_id', $request->company_id)
-            ->where('store_id', $request->store_id)
             ->first();
         
         if($product) return response()->json([
@@ -44,10 +44,19 @@ class ProductsController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            'unit_id' => $request->unit_id,
+            // 'unit_id' => $request->unit_id,
             'company_id' => $request->company_id,
-            'store_id' => $request->store_id
+            // 'store_id' => $request->store_id
         ]);
+
+        if($product && count($request->ingredient_content) > 0){
+            foreach($request->ingredient_content as $ingredient){
+                IngredientProduct::create([
+                    'product_id' => $product->id,
+                    'ingredient_id' => $ingredient['id']
+                ]);
+            }
+        }
 
         return response()->json([
             'status' => 'success',

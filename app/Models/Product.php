@@ -42,4 +42,9 @@ class Product extends Model
     {
         return $this->hasMany(Entry::class);
     }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany(Ingredient::class, 'ingredient_products');
+    }
 }

@@ -20,4 +20,9 @@ class Store extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class);
+    }
 }

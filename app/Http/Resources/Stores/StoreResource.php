@@ -19,7 +19,7 @@ class StoreResource extends JsonResource
             "name" => $this->name,
             "description" => $this->description,
             "company" => $this->company->name,
-            "product_count" => $this->products->count(),
+            // "product_count" => $this->products->count(),
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
         ];
     }

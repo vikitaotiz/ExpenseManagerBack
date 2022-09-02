@@ -16,16 +16,32 @@ class UnitsController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|unique:units',
-            'symbol' => 'required'
+        $unit = Unit::where('title', $request->title)->first();
+
+        if($unit) return response([
+            'status' => 'error',
+            'message' => 'Unit already exists'
         ]);
 
-        $unit = Unit::create([
+        Unit::create([
             'title' => $request->title,
             'symbol' => $request->symbol
         ]);
 
-        return $unit;
+        return response([
+            'status' => 'success',
+            'message' => 'Unit created successfully'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $unit = Unit::findOrFail($id);
+        $unit->delete();
+
+        return response([
+            'status' => 'success',
+            'message' => 'Unit deleted successfully'
+        ]);
     }
 }

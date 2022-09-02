@@ -16,6 +16,7 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\StoresController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\OptionalInputController;
+use App\Http\Controllers\IngredientsController;
 
 Route::group(['prefix' => 'v1'], function(){ 
     Route::post('/register', [AuthController::class, 'register']);
@@ -38,6 +39,7 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('/stats', StatsController::class);
         Route::resource('/stores', StoresController::class);
         Route::resource('/optional_inputs', OptionalInputController::class);
+        Route::resource('/ingredients', IngredientsController::class);
 
         Route::post('/entries_report', [ReportsController::class, 'entries']);
         Route::get('/company_charts', [ReportsController::class, 'company_charts']);
