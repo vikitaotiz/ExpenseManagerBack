@@ -80,7 +80,7 @@ class EntriesController extends Controller
                 "product_id" => $request->product_id,
                 "unit_price" => $request->unit_price,
                 "selling_price" => $request->selling_price,
-                "units" => $request->units,
+                // "units" => $request->units,
                 "parts" => $request->parts,
                 "purchases" => $request->purchases,
                 "purchases_cost" => $request->purchases_cost,

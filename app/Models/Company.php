@@ -47,4 +47,24 @@ class Company extends Model
     {
         return $this->hasMany(OptionalInput::class);
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function payment_modes()
+    {
+        return $this->hasMany(PaymentMode::class);
+    }
+
+    public function material_categories()
+    {
+        return $this->hasMany(MaterialCategory::class);
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
 }

@@ -13,9 +13,10 @@ class Ingredient extends Model
         'name',
         'input_unit',
         'processing_unit',
-        'quantity',
         'buying_price',
-        'store_id'
+        'store_id',
+        'material_category_id',
+        'supplier_id'
     ];
 
     public function store()
@@ -26,5 +27,15 @@ class Ingredient extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'ingredient_products');
+    }
+
+    public function material_category()
+    {
+        return $this->belongsTo(MaterialCategory::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

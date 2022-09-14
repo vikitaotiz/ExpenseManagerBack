@@ -15,8 +15,9 @@ class EntryResource extends JsonResource
 
     public function percentageProfit($selling_price, $usage, $usage_cost)
     {
-        $result = ((((int)$selling_price * (int)$usage) - (int)$usage_cost) / (int)$usage_cost) * 100;
-       return number_format((float)$result, 2, '.', '');
+        $result = ((int)$usage_cost / ((int)$selling_price * (int)$usage) ) * 100;
+
+        return number_format((float)$result, 2, '.', '');
     }
 
     public function toArray($request)

@@ -17,6 +17,11 @@ use App\Http\Controllers\StoresController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\OptionalInputController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\PurchasesController;
+use App\Http\Controllers\PaymentModesController;
+use App\Http\Controllers\MaterialCategoriesController;
+use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\AccountsController;
 
 Route::group(['prefix' => 'v1'], function(){ 
     Route::post('/register', [AuthController::class, 'register']);
@@ -42,10 +47,21 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('/ingredients', IngredientsController::class);
 
         Route::post('/entries_report', [ReportsController::class, 'entries']);
+        Route::post('/purchases_report', [ReportsController::class, 'purchases']);
+        
         Route::get('/company_charts', [ReportsController::class, 'company_charts']);
         Route::get('/entries_last_seven_days', [ReportsController::class, 'entriesLastSevenDays']);
         
         Route::post('/product_closing_stock', [ProductsController::class, 'product_closing_stock']);
+
+        Route::resource('/purchases', PurchasesController::class);
+        Route::get('/today_purchases', [PurchasesController::class, 'today_purchases']);
+        Route::get('/all_purchases', [PurchasesController::class, 'all_purchases']);
+
+        Route::resource('/payment_modes', PaymentModesController::class);
+        Route::resource('/material_categories', MaterialCategoriesController::class);
+        Route::resource('/suppliers', SuppliersController::class);
+        Route::resource('/accounts', AccountsController::class);
     });
 });
 

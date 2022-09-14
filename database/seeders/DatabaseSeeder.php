@@ -14,19 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CompanySeeder::class);
-        $this->call(StoreSeeder::class);
-        
-        $this->call(RoleSeeder::class);
-        $this->call(PartSeeder::class);
+        // $this->call(CompanySeeder::class);
+        // $this->call(StoreSeeder::class);
 
-        // \App\Models\User::factory(10)->create();
-        \App\Models\Category::factory(13)->create();
+        $this->call(PaymentModeSeeder::class);
+        $this->call(MaterialCategorySeeder::class);
         
-        $this->call(UserSeeder::class);
-        
-        $this->call(UnitSeeder::class);
+        // $this->call(RoleSeeder::class);
+        // $this->call(PartSeeder::class);
 
-        \App\Models\Product::factory(50)->create();
+        // // \App\Models\User::factory(10)->create();
+        // \App\Models\Category::factory(13)->create();
+        
+        // $this->call(UserSeeder::class);
+        
+        // $this->call(UnitSeeder::class);
+
+        // \App\Models\Product::factory(50)->create();
     }
 }

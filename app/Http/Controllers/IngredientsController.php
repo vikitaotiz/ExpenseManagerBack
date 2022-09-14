@@ -29,9 +29,10 @@ class IngredientsController extends Controller
             'name' => $request->name,
             'input_unit' => $request->input_unit,
             'processing_unit' => $request->processing_unit,
-            'quantity' => $request->quantity,
             'buying_price' => $request->buying_price,
-            'store_id' => $request->store_id
+            'store_id' => $request->store_id,
+            'material_category_id' => $request->material_category_id,
+            'supplier_id' => $request->supplier_id
         ]);
 
         return response()->json([
@@ -54,7 +55,9 @@ class IngredientsController extends Controller
             'unit_id' => $request->unit_id,
             'quantity' => $request->quantity,
             'buying_price' => $request->buying_price,
-            'store_id' => $request->store_id
+            'store_id' => $request->store_id,
+            'material_category_id' => $request->material_category_id,
+            'supplier_id' => $request->supplier_id
         ]);
 
         return response()->json([

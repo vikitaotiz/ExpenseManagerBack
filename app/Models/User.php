@@ -61,8 +61,8 @@ class User extends Authenticatable
         return $this->hasMany(Entry::class);
     }
 
-    public function spilages()
+    public function purchases()
     {
-        return $this->hasMany(Spilage::class);
+        return $this->hasMany(Purchase::class);
     }
 }

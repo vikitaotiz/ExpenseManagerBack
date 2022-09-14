@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Entry;
+use App\Models\Purchase;
 use App\Models\Company;
 use App\Http\Resources\Entries\EntryResource;
+use App\Http\Resources\Purchases\PurchaseResource;
 use App\Http\Resources\Companies\CompanyChartsResource;
 use Carbon\Carbon;
 
@@ -17,6 +19,15 @@ class ReportsController extends Controller
         if($request->from && $request->to){
             $data = Entry::whereBetween('created_at', [$request->from, $request->to])->get();
             return EntryResource::collection($data);
+        }
+
+    }
+
+    public function purchases(Request $request)
+    {
+        if($request->from && $request->to){
+            $data = Purchase::whereBetween('created_at', [$request->from, $request->to])->get();
+            return PurchaseResource::collection($data);
         }
 
     }

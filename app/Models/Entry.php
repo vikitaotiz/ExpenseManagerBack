@@ -24,7 +24,7 @@ class Entry extends Model
         'stock_shortage_cost',
         'stock_shortage',
         'user_id',
-        'units',
+        // 'units',
         'parts',
         'company_id'
     ];
