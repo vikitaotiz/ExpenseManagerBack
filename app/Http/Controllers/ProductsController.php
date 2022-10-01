@@ -25,9 +25,9 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        if(!$request->name) return response()->json([
+        if(!$request->name && !$request->selling_price) return response()->json([
             'status' => 'error',
-            'message' => 'Name, unit and store are required.'
+            'message' => 'Name and selling price are required.'
         ]);
 
         $product = Product::where('name', $request->name)
@@ -44,23 +44,45 @@ class ProductsController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'category_id' => $request->category_id,
-            // 'unit_id' => $request->unit_id,
+            'selling_price' => $request->selling_price,
             'company_id' => $request->company_id,
-            // 'store_id' => $request->store_id
         ]);
 
-        if($product && count($request->ingredient_content) > 0){
-            foreach($request->ingredient_content as $ingredient){
-                IngredientProduct::create([
-                    'product_id' => $product->id,
-                    'ingredient_id' => $ingredient['id']
-                ]);
-            }
-        }
+        // if($product && count($request->ingredient_content) > 0){
+        //     foreach($request->ingredient_content as $ingredient){
+        //         IngredientProduct::create([
+        //             'product_id' => $product->id,
+        //             'ingredient_id' => $ingredient['id']
+        //         ]);
+        //     }
+        // }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Product created successfully.'
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+                
+        if(!$product) return response()->json([
+            'status' => 'error',
+            'message' => 'Product not found'
+        ]);
+
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'selling_price' => $request->selling_price,
+            'company_id' => $request->company_id,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product updated successfully.'
         ]);
     }
 

@@ -34,7 +34,7 @@ class CompanyChartsResource extends JsonResource
             // "entry_count" => $this->entries->count(),
             // "store_count" => $this->stores->count(),
             // "product_count" => $this->products->count(),
-            "total_sales" => $this->usageSalesCost($this->entries),
+            "total_sales" => $this->entries ? $this->usageSalesCost($this->entries) : null,
         ];
     }
 }

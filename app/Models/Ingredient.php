@@ -33,9 +33,4 @@ class Ingredient extends Model
     {
         return $this->belongsTo(MaterialCategory::class);
     }
-
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class);
-    }
 }

@@ -11,8 +11,8 @@ class Unit extends Model
 
     protected $fillable = ['title', 'symbol'];
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
+    // public function products()
+    // {
+    //     return $this->hasMany(Product::class);
+    // }
 }

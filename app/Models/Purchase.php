@@ -21,7 +21,9 @@ class Purchase extends Model
         'balance',
         'user_id',
         'company_id',
-        'payment_mode_id'
+        'payment_mode_id',
+        'supplier_id',
+        'actual_stock'
     ];
 
     public function company()
@@ -37,5 +39,10 @@ class Purchase extends Model
     public function payment_mode()
     {
         return $this->belongsTo(PaymentMode::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

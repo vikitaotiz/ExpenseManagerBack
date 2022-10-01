@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return void;c
      */
     public function up()
     {
@@ -27,6 +27,7 @@ return new class extends Migration
     {
         Schema::table('ingredients', function (Blueprint $table) {
             $table->dropColumn('supplier_id');
+
         });
     }
 };

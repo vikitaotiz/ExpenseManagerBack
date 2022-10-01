@@ -20,8 +20,8 @@ class CategoryResource extends JsonResource
             "title" => $this->title,
             "slug" => $this->slug,
             "description" => $this->description,
-            "products" => $this->products->count(),
-            "products_data" => ProductResource::collection($this->products),
+            "products" => $this->products? $this->products->count() : 0,
+            "products_data" => $this->products? ProductResource::collection($this->products) : null,
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
         ];
     }

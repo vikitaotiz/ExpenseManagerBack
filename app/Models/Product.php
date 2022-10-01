@@ -13,9 +13,8 @@ class Product extends Model
         "name",
         "description",
         "category_id",
-        "unit_id",
         "company_id",
-        "store_id"
+        "selling_price"
     ];
 
     public function category()
@@ -23,20 +22,20 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
-    }
+    // public function unit()
+    // {
+    //     return $this->belongsTo(Unit::class);
+    // }
 
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function store()
-    {
-        return $this->belongsTo(Store::class);
-    }
+    // public function store()
+    // {
+    //     return $this->belongsTo(Store::class);
+    // }
 
     public function entries()
     {

@@ -25,15 +25,15 @@ class CompanyTodayResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "slug" => $this->slug,
-            "users" => $this->users->count(),
+            "users" => $this->users ? $this->users->count() : 0,
             "phone" => $this->phone,
             "email" => $this->email,
             "address" => $this->address,
             "city" => $this->city,
             "country" => $this->country,
-            "entry_count" => $this->entries->filter(fn($var) => $this->todayRecords($var))->count(),
-            "store_count" => $this->stores->count(),
-            "product_count" => $this->products->count(),
+            "entry_count" => $this->entries ? $this->entries->filter(fn($var) => $this->todayRecords($var))->count() : 0,
+            "store_count" => $this->stores ? $this->stores->count() : 0,
+            "product_count" => $this->products ? $this->products->count() : 0,
             "created_at" => $this->created_at->format('H:m A, jS D M Y')
         ];
     }

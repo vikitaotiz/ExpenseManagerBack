@@ -16,9 +16,9 @@ class Supplier extends Model
         'company_id'
     ];
 
-    public function ingredients()
+    public function purchases()
     {
-        return $this->hasMany(Ingredient::class);
+        return $this->hasMany(Purchase::class);
     }
 
     public function company()

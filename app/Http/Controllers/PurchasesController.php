@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Purchase;
+use App\Models\Account;
 use App\Http\Resources\Purchases\PurchaseResource;
 use Carbon\Carbon;
 
@@ -42,15 +43,15 @@ class PurchasesController extends Controller
 
     public function store(Request $request)
     {
-        $purchase = Purchase::whereDate('created_at', Carbon::today())
-                        ->where('user_id', '=', $request->user_id)
-                        ->where('company_id', '=', $request->company_id)
-                        ->first();
+        // $purchase = Purchase::whereDate('created_at', Carbon::today())
+        //                 ->where('user_id', '=', $request->user_id)
+        //                 ->where('company_id', '=', $request->company_id)
+        //                 ->first();
 
-        if($purchase) return response()->json([
-            'status' => 'error',
-            'message' => 'Purchase already made today.',
-        ]);
+        // if($purchase) return response()->json([
+        //     'status' => 'error',
+        //     'message' => 'Purchase already made today.',
+        // ]);
 
         Purchase::create([
             'product' => $request->product,
@@ -65,6 +66,15 @@ class PurchasesController extends Controller
             'user_id' => $request->user_id,
             'company_id' => $request->company_id,
             'payment_mode_id' => $request->payment_mode_id,
+            'supplier_id' => $request->supplier_id,
+            'actual_stock' => $request->actual_stock
+        ]);
+
+        Account::create([
+            'supplier_id' => $request->supplier_id,
+            'initial_amount' => $request->total_amount,
+            'amount_settled' => 0,
+            'balance' => 0
         ]);
 
         return response()->json([
@@ -94,7 +104,9 @@ class PurchasesController extends Controller
             'balance' => $request->balance,
             'user_id' => $request->user_id,
             'company_id' => $request->company_id,
-            'payment_mode_id' => $request->payment_mode_id
+            'payment_mode_id' => $request->payment_mode_id,
+            'supplier_id' => $request->supplier_id,
+            'actual_stock' => $request->actual_stock
         ]);
 
         return response()->json([
