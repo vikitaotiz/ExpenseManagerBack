@@ -16,7 +16,7 @@ class Ingredient extends Model
         'buying_price',
         'store_id',
         'material_category_id',
-        'supplier_id'
+        // 'supplier_id'
     ];
 
     public function store()

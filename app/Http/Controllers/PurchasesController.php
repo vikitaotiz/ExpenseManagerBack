@@ -115,6 +115,26 @@ class PurchasesController extends Controller
         ]);
     }
 
+    public function updatePurchaseClosing(Request $request, $id)
+    {
+        $purchase = Purchase::findOrFail($id);
+        
+        if(!$purchase) return response()->json([
+            'status' => 'error',
+            'message' => 'Purchase does not exists.',
+        ]);
+
+        $purchase->update([
+            'closing_stock' => $request->closing_stock,
+            'actual_stock' => $request->actual_stock
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Purchase updated successfully.',
+        ]);
+    }
+
     public function destroy($id)
     {
         $purchase = Purchase::findOrFail($id);

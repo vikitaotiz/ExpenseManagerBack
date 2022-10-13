@@ -3,6 +3,8 @@
 namespace App\Http\Resources\Entries;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Ingredient;
+use App\Models\Product;
 
 class EntryResource extends JsonResource
 {
@@ -13,11 +15,11 @@ class EntryResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
 
-    public function percentageProfit($selling_price, $usage, $usage_cost)
+    public function productUnitPrice($id)
     {
-        $result = ((int)$usage_cost / ((int)$selling_price * (int)$usage) ) * 100;
-
-        return number_format((float)$result, 2, '.', '');
+        $product = Product::findOrFail($id);
+        $ingredient = Ingredient::where("name", $product->name)->first();
+        return $ingredient->buying_price;
     }
     
     public function toArray($request)
@@ -29,7 +31,7 @@ class EntryResource extends JsonResource
             'category' => $this->product ? $this->product->category->title : "No category name",
             // 'units' => $this->units,
             'parts' => $this->parts,
-            'unit_price' => $this->unit_price,
+            'unit_price' => $this->productUnitPrice($this->product_id),
             'selling_price' => $this->selling_price,
             'opening_stock' => $this->opening_stock,
             'closing_stock' => $this->closing_stock,

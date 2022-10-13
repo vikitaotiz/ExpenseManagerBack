@@ -45,19 +45,28 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        // $category = 
-        // $request->validate([
-        //     'title' => 'required'
-        // ]);
+        $category = Category::findOrFail($id);
 
-        // $update = $category->update([
-        //     'title' => $request->title,
-        //     'description' => $request->description
-        // ]);
+        if(!$category) return response()->json([
+            'message' => 'Category not found',
+            'status' => 'error'
+        ]);
+        
+        $request->validate([
+            'title' => 'required'
+        ]);
 
-        return $request;
+        $update = $category->update([
+            'title' => $request->title,
+            'description' => $request->title
+        ]);
+
+        return response()->json([
+            'message' => 'Category updated successfully.',
+            'status' => 'success'
+        ]);
     }
 
     public function destroy($slug)

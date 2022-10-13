@@ -39,6 +39,7 @@ Route::group(['prefix' => 'v1'], function(){
         Route::resource('units', UnitsController::class);
         Route::resource('products', ProductsController::class);
         Route::resource('entries', EntriesController::class);
+        Route::post('get_sales', [EntriesController::class, 'get_sales']);
         Route::get('today_entries/{slug}', [EntriesController::class, 'today_entries']);
         Route::resource('/users', UsersController::class);
         Route::resource('/stats', StatsController::class);
@@ -51,6 +52,8 @@ Route::group(['prefix' => 'v1'], function(){
         
         Route::get('/company_charts', [ReportsController::class, 'company_charts']);
         Route::get('/entries_last_seven_days', [ReportsController::class, 'entriesLastSevenDays']);
+        Route::get('/entries_last_seven_days', [ReportsController::class, 'entriesLastSevenDays']);
+        Route::get('/sales_categories', [ReportsController::class, 'sales_categories']);
         
         Route::post('/product_closing_stock', [ProductsController::class, 'product_closing_stock']);
 

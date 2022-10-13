@@ -8,6 +8,7 @@ use App\Models\Entry;
 use App\Models\Purchase;
 use App\Models\Company;
 use App\Http\Resources\Entries\EntryResource;
+use App\Http\Resources\Entries\SalesCategoryResource;
 use App\Http\Resources\Purchases\PurchaseResource;
 use App\Http\Resources\Companies\CompanyChartsResource;
 use Carbon\Carbon;
@@ -49,11 +50,21 @@ class ReportsController extends Controller
 
         for ($i = 0; $i < 7; $i++) {
             $day = Carbon::now()->subDays($i)->format('l');
-            $entries = Entry::whereDate('created_at', Carbon::now()->subDays($i)->toDateString())->count();
-            $data = ["day" => $day, "records" => $entries];
+            
+            $sales = Entry::whereDate('created_at', Carbon::now()->subDays($i)->toDateString())->sum(DB::raw('entries.selling_price * entries.usage'));
+
+            $purchases = Purchase::whereDate('created_at', Carbon::now()->subDays($i)->toDateString())->sum('total_amount');
+            
+            $data = ["day" => $day, "sales" => $sales, "purchases" => $purchases];
             array_push($entries_days_number, $data);
         }
 
         return ['data' => $entries_days_number];
+    }
+
+
+    public function sales_categories()
+    {
+        return SalesCategoryResource::collection(Entry::all());
     }
 }

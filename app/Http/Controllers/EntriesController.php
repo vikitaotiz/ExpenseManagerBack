@@ -15,12 +15,47 @@ class EntriesController extends Controller
     public function index()
     {
         if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
-            $data = Entry::orderBy('created_at', 'desc')->get();
+            $data = Entry::whereDate('created_at', Carbon::today())
+            ->orderBy('created_at', 'desc')
+            ->get();
         } else {
-            $data = Entry::where('company_id', auth()->user()->company_id)->orderBy('created_at', 'desc')->get();
+            $data = Entry::whereDate('created_at', Carbon::today())
+            ->where('company_id', auth()->user()->company_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
         }
         
         return EntryResource::collection($data);
+    }
+
+    public function get_sales(Request $request)
+    {
+        if(auth()->user()->id === 1 && auth()->user()->role_id === 1){
+            if($request->from === $request->to) {
+               $data = Entry::whereDate('created_at', '=', $request->from)
+               ->orderBy('created_at', 'desc')
+               ->get();
+            } else {
+                $data = Entry::whereBetween('created_at', [$request->from, $request->to])
+                ->orderBy('created_at', 'desc')
+                ->get();
+            }
+        } else {
+            if($request->from === $request->to) {
+                $data = Entry::whereDate('created_at', '=', $request->from)
+                ->where('company_id', auth()->user()->company_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+             } else {
+                $data = Entry::whereBetween('created_at', [$request->from, $request->to])
+                ->where('company_id', auth()->user()->company_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            }
+        }
+        
+        return EntryResource::collection($data);
+
     }
 
     private function todayRecords($var)

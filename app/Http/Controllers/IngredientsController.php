@@ -32,7 +32,7 @@ class IngredientsController extends Controller
             'buying_price' => $request->buying_price,
             'store_id' => $request->store_id,
             'material_category_id' => $request->material_category_id,
-            'supplier_id' => $request->supplier_id
+            // 'supplier_id' => $request->supplier_id
         ]);
 
         return response()->json([
@@ -57,7 +57,7 @@ class IngredientsController extends Controller
             'buying_price' => $request->buying_price,
             'store_id' => $request->store_id,
             'material_category_id' => $request->material_category_id,
-            'supplier_id' => $request->supplier_id
+            // 'supplier_id' => $request->supplier_id
         ]);
 
         return response()->json([
