@@ -73,8 +73,8 @@ class PurchasesController extends Controller
         Account::create([
             'supplier_id' => $request->supplier_id,
             'initial_amount' => $request->total_amount,
-            'amount_settled' => 0,
-            'balance' => 0
+            'amount_settled' => $request->amount_paid,
+            'balance' => $request->balance,
         ]);
 
         return response()->json([
